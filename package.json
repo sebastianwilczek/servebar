@@ -1,0 +1,35 @@
+{
+  "name": "servebar",
+  "version": "1.0.0",
+  "description": "Local handlebars web page serving",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "eslint .",
+    "lint-fix": "eslint --fix ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebastianwilczek/servebar.git"
+  },
+  "keywords": [
+    "handlebars",
+    "serve",
+    "web",
+    "render"
+  ],
+  "author": "Sebastian Wilczek",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sebastianwilczek/servebar/issues"
+  },
+  "homepage": "https://github.com/sebastianwilczek/servebar#readme",
+  "devDependencies": {
+    "eslint": "^9.8.0",
+    "globals": "^15.8.0"
+  },
+  "bin": {
+    "servebar": "./index.js"
+  },
+  "preferGlobal": true
+}
