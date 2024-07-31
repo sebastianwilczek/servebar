@@ -1,5 +1,7 @@
 # servebar
 
+[![npm version](https://img.shields.io/npm/v/servebar.svg?style=flat-square)](https://www.npmjs.org/package/servebar)
+
 servebar is a server of static files with support for Handlebars templates.
 
 All files with the `.hbs` extension are served as static HTML using Handlebars. All other files are served as-is.

@@ -1,6 +1,6 @@
 {
   "name": "servebar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Local handlebars web page serving",
   "main": "index.js",
   "type": "module",
