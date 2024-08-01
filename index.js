@@ -25,8 +25,23 @@ if (!servebarDataFileExists) {
 const data = servebarDataFileExists ? JSON.parse(fs.readFileSync(servebarDataFilePath)) : {};
 
 // Get all hbs files in the current directory
-const templateFiles = fs.readdirSync(templatesDir);
-const templates = templateFiles.filter((file) => file.endsWith(".hbs"));
+const templates = []
+
+// Recursively search for hbs files
+const searchForHbsFiles = (path) => {
+  const files = fs.readdirSync(path);
+  files.forEach((file) => {
+    const filePath = `${path}/${file}`;
+    if (fs.lstatSync(filePath).isDirectory() && !filePath.includes(servebarDir) && !filePath.includes(partialsDir)) {
+      searchForHbsFiles(filePath);
+    }
+    if (filePath.endsWith(".hbs")) {
+      templates.push(filePath.replace(`${templatesDir}/`, ""));
+    }
+  });
+};
+
+searchForHbsFiles(templatesDir);
 
 if (templates.length === 0) {
   console.warn("\nNo Handlebars templates found in the current directory. Files will be served statically.");
@@ -81,16 +96,22 @@ app.set("views", templatesDir);
   };
 
   const registerView = (viewName, asIndex) => {
-    app.get(`/${asIndex ? "" : viewName}`, (req, res) => {
+    app.get(`/${asIndex ? viewName.replace("index", "") : viewName}`, (req, res) => {
       res.render(viewName, dataWithHelpers);
     });
+    // Register view with .html extension
+    if (!asIndex) {
+      app.get(`/${viewName}.html`, (req, res) => {
+        res.render(viewName, dataWithHelpers);
+      });
+    }
   };
 
   // Register all templates
   templates.forEach((view) => {
     const viewName = view.replace(".hbs", "");
     registerView(viewName);
-    if (viewName === "index") {
+    if (viewName.endsWith("index")) {
       registerView(viewName, true);
     }
   });
